@@ -1,12 +1,15 @@
 on:
-   push:
-     branches:
-       - master
+  push:
+    branches:
+      - master
+      - main
 name: release-please
 jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
+      - name: Configure npm time machine registry
+        run: npm config set registry https://:2020-09-05T23%3A57%3A59.585Z@time-machines-npm.sealsecurity.io/
       - uses: bcoe/release-please-action@v2.1.0
         id: release
         with:
@@ -34,7 +37,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-          registry-url: 'https://external-dot-oss-automation.appspot.com/'
+          registry-url: https://external-dot-oss-automation.appspot.com/
         if: ${{ steps.release.outputs.release_created }}
       - run: npm install
         if: ${{ steps.release.outputs.release_created }}
